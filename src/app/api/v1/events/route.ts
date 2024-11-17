@@ -47,6 +47,15 @@ export const POST = async (req: NextRequest) => {
         { status: 403 }
       )
     }
+    if (!user.discordBotToken) {
+      return NextResponse.json(
+        {
+          message:
+            "Please enter your discord Bot Token in your account settings",
+        },
+        { status: 403 }
+      )
+    }
     //actual logic
     const currentData = new Date()
     const currentMonth = currentData.getMonth() + 1
@@ -74,7 +83,7 @@ export const POST = async (req: NextRequest) => {
         { status: 429 }
       )
     }
-    const discord = new DiscordClient(process.env.DISCORD_BOT_TOKEN)
+    const discord = new DiscordClient(user.discordBotToken)
     const dmChannel = await discord.createDM(user.discordId)
     let requestData: unknown
 

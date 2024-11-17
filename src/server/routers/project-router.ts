@@ -51,4 +51,18 @@ export const projectRouter = router({
 
       return c.json({ success: true })
     }),
+
+  setDiscordBotToken: privateProcedure
+    .input(z.object({ discordBotToken: z.string() }))
+    .mutation(async ({ c, ctx, input }) => {
+      const { user } = ctx
+      const { discordBotToken } = input
+
+      await db.user.update({
+        where: { id: user.id },
+        data: { discordBotToken },
+      })
+
+      return c.json({ success: true })
+    }),
 })

@@ -13,6 +13,10 @@ const Page = async () => {
 
   const user = await db.user.findUnique({
     where: { externalId: auth.id },
+    select: {
+      discordId: true,
+      discordBotToken: true,
+    },
   })
 
   if (!user) {
@@ -21,7 +25,10 @@ const Page = async () => {
 
   return (
     <DashboardPage title="Account Settings">
-      <AccountSettings discordId={user.discordId ?? ""} />
+      <AccountSettings
+        discordId={user.discordId ?? ""}
+        discordBotToken={user.discordBotToken ?? ""}
+      />
     </DashboardPage>
   )
 }
